@@ -1,0 +1,189 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { Button } from "./Button";
+import { Play } from "lucide-react";
+
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
+
+export const Hero = () => {
+  const [currentIndex, setCurrentIndex] = useState(1);
+  const [hasClicked, setHasClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [loadedVideos, setLoadedVideos] = useState(0);
+
+  const totalVideos = 4;
+  const nextVdRef = useRef<HTMLVideoElement>(null);
+
+  const handleVideoLoad = () => {
+    setLoadedVideos((prev) => prev + 1);
+  };
+
+  const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
+
+  const handleMiniVdClick = () => {
+    setHasClicked(true);
+    setCurrentIndex(upcomingVideoIndex);
+  };
+
+  useEffect(() => {
+    let timeout: NodeJS.Timeout;
+    if (loadedVideos === totalVideos - 1) {
+      timeout = setTimeout(() => {
+        setIsLoading(false);
+      }, 100);
+    }
+    return () => clearTimeout(timeout);
+  }, [loadedVideos]);
+
+  useEffect(() => {
+    if (hasClicked) {
+      gsap.set("#next-video", { visibility: "visible" });
+
+      gsap.to("#next-video", {
+        transformOrigin: "center center",
+        scale: 1,
+        width: "100%",
+        height: "100%",
+        duration: 1,
+        ease: "power1.inOut",
+        onStart: () => {
+          if (nextVdRef.current) {
+            nextVdRef.current.play();
+          }
+        },
+      });
+
+      gsap.from("#current-video", {
+        transformOrigin: "center center",
+        scale: 0,
+        duration: 1.5,
+        ease: "power1.inOut",
+      });
+    }
+  }, [hasClicked, currentIndex]);
+
+  useEffect(() => {
+    gsap.set("#video-frame", {
+      clipPath: "polygon(14% 0%, 72% 0%, 90% 90%, 0% 100%)",
+      borderRadius: "0 0 40% 10%",
+    });
+
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      borderRadius: "0 0 0 0",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
+    });
+  }, []);
+
+  const getVideoSrc = (index: number) => `https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4`; // Using a placeholder that works visually
+  
+  // Custom abstract videos since no local ones
+  const getCustomVideoSrc = (index: number) => {
+    const urls = [
+      "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
+      "https://videos.pexels.com/video-files/3129595/3129595-hd_1920_1080_30fps.mp4",
+      "https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4",
+      "https://videos.pexels.com/video-files/1191544/1191544-hd_1920_1080_24fps.mp4"
+    ];
+    return urls[(index - 1) % urls.length];
+  }
+
+  return (
+    <div className="relative h-[100dvh] w-screen overflow-x-hidden">
+      {isLoading && (
+        <div className="flex-center absolute z-[100] h-[100dvh] w-screen overflow-hidden bg-violet-50 items-center justify-center">
+          <div className="three-body">
+            <div className="three-body__dot" />
+            <div className="three-body__dot" />
+            <div className="three-body__dot" />
+          </div>
+          <span className="text-black font-general ml-4">Loading Transcendance...</span>
+        </div>
+      )}
+
+      <div
+        id="video-frame"
+        className="relative z-10 h-[100dvh] w-screen overflow-hidden rounded-lg bg-blue-75"
+      >
+        <div>
+          <div className="mask-clip-path absolute absolute-center z-50 size-64 cursor-pointer overflow-hidden rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity">
+            <div
+              onClick={handleMiniVdClick}
+              className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
+            >
+              <video
+                ref={nextVdRef}
+                src={getCustomVideoSrc(upcomingVideoIndex)}
+                loop
+                muted
+                id="current-video"
+                className="size-64 origin-center scale-150 object-cover object-center"
+                onLoadedData={handleVideoLoad}
+              />
+            </div>
+          </div>
+
+          <video
+            ref={nextVdRef}
+            src={getCustomVideoSrc(currentIndex)}
+            loop
+            muted
+            id="next-video"
+            className="absolute left-1/2 top-1/2 z-20 size-64 -translate-x-1/2 -translate-y-1/2 object-cover object-center invisible"
+            onLoadedData={handleVideoLoad}
+          />
+
+          <video
+            src={getCustomVideoSrc(
+              currentIndex === totalVideos - 1 ? 1 : currentIndex
+            )}
+            autoPlay
+            loop
+            muted
+            className="absolute left-0 top-0 size-full object-cover object-center"
+            onLoadedData={handleVideoLoad}
+          />
+        </div>
+
+        <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">
+          C<b>E</b>ND
+        </h1>
+
+        <div className="absolute left-0 top-0 z-40 size-full">
+          <div className="mt-24 px-5 sm:px-10">
+            <h1 className="special-font hero-heading text-blue-100">
+              TR<b>A</b>NS
+            </h1>
+
+            <p className="mb-5 max-w-64 font-general text-blue-100 text-lg uppercase">
+              Enter the Nexus Realm. <br />
+              Pioneer the Digital Frontier.
+            </p>
+
+            <Button
+              id="watch-trailer"
+              title="Watch Trailer"
+              leftIcon={<Play className="mr-2 icon-sm" size={16} />}
+              containerClass="bg-primary flex items-center justify-center gap-1"
+            />
+          </div>
+        </div>
+      </div>
+
+      <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">
+        C<b>E</b>ND
+      </h1>
+    </div>
+  );
+};
