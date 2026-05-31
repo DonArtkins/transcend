@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import Image from "next/image";
 import clsx from "clsx";
 
 interface BentoCardProps {
@@ -8,10 +9,15 @@ interface BentoCardProps {
   isComingSoon?: boolean;
 }
 
-const BentoCard = ({ src, title, description, isComingSoon }: BentoCardProps) => {
+const BentoCard = ({
+  src,
+  title,
+  description,
+  isComingSoon,
+}: BentoCardProps) => {
   return (
     <div className="relative size-full">
-      {src.endsWith('.mp4') ? (
+      {src.endsWith(".mp4") ? (
         <video
           src={src}
           autoPlay
@@ -20,8 +26,9 @@ const BentoCard = ({ src, title, description, isComingSoon }: BentoCardProps) =>
           className="absolute left-0 top-0 size-full object-cover object-center"
         />
       ) : (
-        <img
+        <Image
           src={src}
+          fill
           className="absolute left-0 top-0 size-full object-cover object-center"
           alt="bento bg"
         />
@@ -53,7 +60,8 @@ export const Features = () => {
           <p className="max-w-md font-circular text-lg text-blue-50 opacity-50 mt-4">
             Immerse yourself in a rich and ever-expanding universe where a
             vibrant array of digital tools converge into an interconnected
-            overlay experience that transforms the way you interact on your world.
+            overlay experience that transforms the way you interact on your
+            world.
           </p>
         </div>
 
@@ -107,13 +115,16 @@ export const Features = () => {
           </div>
 
           <div className="bento-tilt_2 bg-violet-300 rounded-md overflow-hidden">
-             <div className="flex size-full flex-col justify-between p-5 text-blue-50">
-               <h1 className="bento-title special-font max-w-64 text-black text-5xl md:text-7xl">
-                 More<br/>Coming<br/>Soon.
-               </h1>
-             </div>
+            <div className="flex size-full flex-col justify-between p-5 text-blue-50">
+              <h1 className="bento-title special-font max-w-64 text-black text-5xl md:text-7xl">
+                More
+                <br />
+                Coming
+                <br />
+                Soon.
+              </h1>
+            </div>
           </div>
-
         </div>
       </div>
     </section>

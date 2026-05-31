@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, MouseEvent } from "react";
+import Image from "next/image";
 import gsap from "gsap";
 import { AnimatedTitle } from "./AnimatedTitle";
 import { Button } from "./Button";
@@ -46,7 +47,10 @@ export const Story = () => {
   };
 
   return (
-    <section id="story" className="min-h-dvh w-screen bg-black text-blue-50 py-20 px-5">
+    <section
+      id="story"
+      className="min-h-dvh w-screen bg-black text-blue-50 py-20 px-5"
+    >
       <div className="flex size-full flex-col items-center py-10 pb-24">
         <p className="font-general text-sm uppercase md:text-[10px]">
           The Multiversal IP World
@@ -59,9 +63,11 @@ export const Story = () => {
           />
 
           <div className="story-img-container h-[50vh] md:h-[70vh] w-[80vw] md:w-[60vw] mx-auto mt-[-5vh] md:mt-[-10vh]">
-            <div className="story-img-mask relative w-full h-full overflow-hidden rounded-[20px] transition-transform duration-500 hover:scale-105"
-                 style={{ clipPath: "polygon(4% 0, 83% 21%, 100% 73%, 0 100%)" }}>
-              <img
+            <div
+              className="story-img-mask relative w-full h-full overflow-hidden rounded-[20px] transition-transform duration-500 hover:scale-105"
+              style={{ clipPath: "polygon(4% 0, 83% 21%, 100% 73%, 0 100%)" }}
+            >
+              <Image
                 ref={frameRef}
                 onMouseMove={handleMouseMove}
                 onMouseLeave={handleMouseLeave}
@@ -69,17 +75,19 @@ export const Story = () => {
                 onMouseEnter={handleMouseLeave}
                 src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
                 alt="entrance"
+                fill
                 className="object-cover w-full h-full"
               />
             </div>
           </div>
         </div>
-        
+
         <div className="-mt-20 md:-mt-8 flex w-full justify-center md:me-44 md:justify-end">
           <div className="flex h-full w-fit flex-col items-center md:items-start text-center md:text-left gap-5">
             <p className="w-full max-w-sm text-sm text-blue-50 opacity-80 md:text-base font-general">
-              Where realms converge, lies Vortex and the boundless pillar. Discover its
-              secrets and shape your fate amidst infinite opportunities.
+              Where realms converge, lies Vortex and the boundless pillar.
+              Discover its secrets and shape your fate amidst infinite
+              opportunities.
             </p>
             <Button
               id="realm-btn"
