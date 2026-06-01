@@ -1,9 +1,10 @@
-import type { Metadata } from 'next';
-import './globals.css';
+import type { Metadata } from "next";
+import "./globals.css";
+import { Loader } from "@/components/Loader";
 
 export const metadata: Metadata = {
-  title: 'Transcend | The Next Era of Digital Experiences',
-  description: 'A visually distinct landing page clone inspired by Zentry.',
+  title: "Transcend | The Next Era of Digital Experiences",
+  description: "A visually distinct landing page clone inspired by Zentry.",
 };
 
 export default function RootLayout({
@@ -14,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body suppressHydrationWarning>
-        {children}
+        <Loader>{children}</Loader>
       </body>
     </html>
   );
