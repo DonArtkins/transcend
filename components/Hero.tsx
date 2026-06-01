@@ -13,15 +13,9 @@ if (typeof window !== "undefined") {
 export const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [loadedVideos, setLoadedVideos] = useState(0);
 
   const totalVideos = 4;
   const nextVdRef = useRef<HTMLVideoElement>(null);
-
-  const handleVideoLoad = () => {
-    setLoadedVideos((prev) => prev + 1);
-  };
 
   const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
 
@@ -29,16 +23,6 @@ export const Hero = () => {
     setHasClicked(true);
     setCurrentIndex(upcomingVideoIndex);
   };
-
-  useEffect(() => {
-    let timeout: NodeJS.Timeout;
-    if (loadedVideos === totalVideos - 1) {
-      timeout = setTimeout(() => {
-        setIsLoading(false);
-      }, 100);
-    }
-    return () => clearTimeout(timeout);
-  }, [loadedVideos]);
 
   useEffect(() => {
     if (hasClicked) {
@@ -86,32 +70,18 @@ export const Hero = () => {
     });
   }, []);
 
-  const getVideoSrc = (index: number) => `https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4`; // Using a placeholder that works visually
-  
-  // Custom abstract videos since no local ones
-  const getCustomVideoSrc = (index: number) => {
+  const getVideoSrc = (index: number) => {
     const urls = [
       "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
       "https://videos.pexels.com/video-files/3129595/3129595-hd_1920_1080_30fps.mp4",
       "https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4",
-      "https://videos.pexels.com/video-files/1191544/1191544-hd_1920_1080_24fps.mp4"
+      "https://videos.pexels.com/video-files/1191544/1191544-hd_1920_1080_24fps.mp4",
     ];
     return urls[(index - 1) % urls.length];
-  }
+  };
 
   return (
     <div className="relative h-[100dvh] w-screen overflow-x-hidden">
-      {isLoading && (
-        <div className="flex-center absolute z-[100] h-[100dvh] w-screen overflow-hidden bg-violet-50 items-center justify-center">
-          <div className="three-body">
-            <div className="three-body__dot" />
-            <div className="three-body__dot" />
-            <div className="three-body__dot" />
-          </div>
-          <span className="text-black font-general ml-4">Loading Transcendance...</span>
-        </div>
-      )}
-
       <div
         id="video-frame"
         className="relative z-10 h-[100dvh] w-screen overflow-hidden rounded-lg bg-blue-75"
@@ -124,35 +94,32 @@ export const Hero = () => {
             >
               <video
                 ref={nextVdRef}
-                src={getCustomVideoSrc(upcomingVideoIndex)}
+                src={getVideoSrc(upcomingVideoIndex)}
                 loop
                 muted
                 id="current-video"
                 className="size-64 origin-center scale-150 object-cover object-center"
-                onLoadedData={handleVideoLoad}
               />
             </div>
           </div>
 
           <video
             ref={nextVdRef}
-            src={getCustomVideoSrc(currentIndex)}
+            src={getVideoSrc(currentIndex)}
             loop
             muted
             id="next-video"
             className="absolute left-1/2 top-1/2 z-20 size-64 -translate-x-1/2 -translate-y-1/2 object-cover object-center invisible"
-            onLoadedData={handleVideoLoad}
           />
 
           <video
-            src={getCustomVideoSrc(
-              currentIndex === totalVideos - 1 ? 1 : currentIndex
+            src={getVideoSrc(
+              currentIndex === totalVideos - 1 ? 1 : currentIndex,
             )}
             autoPlay
             loop
             muted
             className="absolute left-0 top-0 size-full object-cover object-center"
-            onLoadedData={handleVideoLoad}
           />
         </div>
 
