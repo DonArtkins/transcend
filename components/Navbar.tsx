@@ -53,7 +53,7 @@ export const Navbar = () => {
         Math.random() * 12 + 4,
         Math.random() * 12 + 4,
         Math.random() * 12 + 4,
-        Math.random() * 12 + 4
+        Math.random() * 12 + 4,
       ]);
     } else {
       setIndicatorHeights([4, 4, 4, 4]);
@@ -83,7 +83,9 @@ export const Navbar = () => {
             <Button
               id="product-button"
               title="Products"
-              rightIcon={<span className="ml-2 w-2 h-2 rounded-full bg-black/60 inline-block" />}
+              rightIcon={
+                <span className="ml-2 w-2 h-2 rounded-full bg-black/60 inline-block" />
+              }
               containerClass="bg-blue-50 md:flex hidden items-center justify-center gap-1 !px-4 !py-2 !text-xs"
             />
           </div>
@@ -103,7 +105,7 @@ export const Navbar = () => {
 
             <button
               onClick={toggleAudioIndicator}
-              className="ml-10 flex items-center space-x-0.5"
+              className="ml-10 flex items-center space-x-0.5 cursor-pointer"
             >
               <audio
                 ref={audioElementRef}
@@ -116,11 +118,11 @@ export const Navbar = () => {
                   key={bar}
                   className={clsx(
                     "indicator-line h-1 w-1 rounded-full bg-white transition-all duration-200 ease-in-out",
-                    isIndicatorActive ? "active" : ""
+                    isIndicatorActive ? "active" : "",
                   )}
                   style={{
                     animationDelay: `${bar * 0.1}s`,
-                    height: `${indicatorHeights[index]}px`
+                    height: `${indicatorHeights[index]}px`,
                   }}
                 />
               ))}
