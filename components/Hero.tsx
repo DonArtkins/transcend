@@ -73,21 +73,19 @@ export const Hero = () => {
   const getVideoSrc = (index: number) => {
     const urls = [
       "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
-      "https://videos.pexels.com/video-files/3129595/3129595-hd_1920_1080_30fps.mp4",
       "https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4",
-      "https://videos.pexels.com/video-files/1191544/1191544-hd_1920_1080_24fps.mp4",
     ];
     return urls[(index - 1) % urls.length];
   };
 
   return (
-    <div className="relative h-[100dvh] w-screen overflow-x-hidden">
+    <div className="relative h-[100dvh] w-screen overflow-x-hidden bg-blue-50">
       <div
         id="video-frame"
-        className="relative z-10 h-[100dvh] w-screen overflow-hidden rounded-lg bg-blue-75"
+        className="relative z-10 h-[100dvh] w-screen overflow-hidden rounded-lg bg-primary-75"
       >
         <div>
-          <div className="mask-clip-path absolute absolute-center z-50 size-64 cursor-pointer overflow-hidden rounded-lg top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 hover:opacity-100 transition-opacity">
+          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
             <div
               onClick={handleMiniVdClick}
               className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
@@ -123,17 +121,17 @@ export const Hero = () => {
           />
         </div>
 
-        <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-blue-75">
+        <h1 className="special-font hero-heading absolute bottom-5 right-5 z-40 text-primary-75">
           C<b>E</b>ND
         </h1>
 
         <div className="absolute left-0 top-0 z-40 size-full">
           <div className="mt-24 px-5 sm:px-10">
-            <h1 className="special-font hero-heading text-blue-100">
+            <h1 className="special-font hero-heading text-primary-100">
               TR<b>A</b>NS
             </h1>
 
-            <p className="mb-5 max-w-64 font-general text-blue-100 text-lg uppercase">
+            <p className="mb-5 max-w-64 font-general text-primary-100 text-lg uppercase">
               Enter the Nexus Realm. <br />
               Pioneer the Digital Frontier.
             </p>
@@ -142,7 +140,7 @@ export const Hero = () => {
               id="watch-trailer"
               title="Watch Trailer"
               leftIcon={<Play className="mr-2 icon-sm" size={16} />}
-              containerClass="bg-primary flex items-center justify-center gap-1"
+              containerClass="bg-primary-100 flex items-center justify-center gap-1"
             />
           </div>
         </div>
