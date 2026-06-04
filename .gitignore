@@ -6,3 +6,4 @@ coverage/
 .env
 .kiro
 .vscode
+public/videos/
