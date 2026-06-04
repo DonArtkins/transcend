@@ -79,7 +79,7 @@ export const About = () => {
       <div className="h-dvh w-screen" id="about-clip">
         <div className="about-image-mask mask-clip-path about-image">
           <Image
-            src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=85&w=2400&auto=format&fit=crop"
+            src="https://res.cloudinary.com/dqyzd8vqh/image/upload/v1780586173/ABOUT_1_zfukdb.jpg"
             alt="A vast cosmic expanse of stars and galaxies"
             fill
             priority

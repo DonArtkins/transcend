@@ -5,7 +5,21 @@ import clsx from "clsx";
 import { Button } from "./Button";
 import gsap from "gsap";
 
-const navItems = ["Nexus", "Vault", "Prologue", "About", "Contact"];
+// Ordered to match the on-page scroll order so the active indicator moves
+// smoothly across the bar instead of jumping around. Each label maps to a
+// section id: Nexus -> Hero, About -> About, Vault -> Features,
+// Prologue -> Story, Contact -> Contact.
+const navItems = ["Nexus", "About", "Vault", "Prologue", "Contact"];
+
+// Nav labels don't 1:1 match section element ids, so we map each label to the
+// id of the DOM section it should highlight when scrolled into view.
+const navSectionIds: Record<string, string> = {
+  Nexus: "hero",
+  About: "about",
+  Vault: "features",
+  Prologue: "story",
+  Contact: "contact",
+};
 
 export const Navbar = () => {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
@@ -38,25 +52,62 @@ export const Navbar = () => {
   }, [lastScrollY]);
 
   useEffect(() => {
-    const sections = navItems
-      .map((item) => document.getElementById(item.toLowerCase()))
-      .filter((el): el is HTMLElement => el !== null);
+    // Build the ordered list of [navLabel, sectionElement] pairs once.
+    const entries = navItems
+      .map(
+        (item) => [item, document.getElementById(navSectionIds[item])] as const,
+      )
+      .filter(
+        (pair): pair is readonly [string, HTMLElement] => pair[1] !== null,
+      );
 
-    if (sections.length === 0) return;
+    if (entries.length === 0) return;
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
-          }
-        });
-      },
-      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
-    );
+    let frame = 0;
 
-    sections.forEach((section) => observer.observe(section));
-    return () => observer.disconnect();
+    // Highlight whichever section currently sits under the viewport's
+    // vertical center. This is resilient to pinned sections (About) and
+    // variable section heights, unlike a fixed-margin IntersectionObserver.
+    const updateActiveSection = () => {
+      frame = 0;
+      const viewportCenter = window.innerHeight / 2;
+      let bestId = "";
+      let bestDistance = Infinity;
+
+      for (const [, section] of entries) {
+        const rect = section.getBoundingClientRect();
+        const coversCenter =
+          rect.top <= viewportCenter && rect.bottom >= viewportCenter;
+        const distance = coversCenter
+          ? 0
+          : Math.min(
+              Math.abs(rect.top - viewportCenter),
+              Math.abs(rect.bottom - viewportCenter),
+            );
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestId = section.id;
+        }
+      }
+
+      setActiveSection(bestId);
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(updateActiveSection);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => {
@@ -119,10 +170,10 @@ export const Navbar = () => {
               {navItems.map((item, index) => (
                 <a
                   key={index}
-                  href={`#${item.toLowerCase()}`}
+                  href={`#${navSectionIds[item]}`}
                   className={clsx(
                     "nav-hover-btn",
-                    activeSection === item.toLowerCase() && "is-active",
+                    activeSection === navSectionIds[item] && "is-active",
                   )}
                 >
                   {item}

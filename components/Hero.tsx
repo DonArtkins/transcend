@@ -21,6 +21,7 @@ const VIDEO_URLS = [
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569379/DNA_2_t166uz.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569354/Orion_1_rh2nuj.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569315/Orion_3_nyqzb3.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780585133/BENTO_4_rwiwxu.mp4",
 ];
 
 const totalVideos = VIDEO_URLS.length;
@@ -116,13 +117,16 @@ export const Hero = () => {
   }, []);
 
   return (
-    <div className="relative h-[100dvh] w-screen overflow-x-hidden bg-blue-50">
+    <div
+      id="hero"
+      className="relative h-[100dvh] w-screen overflow-x-hidden bg-blue-50"
+    >
       <div
         id="video-frame"
         className="relative z-10 h-[100dvh] w-screen overflow-hidden rounded-lg bg-primary-75"
       >
         <div>
-          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg">
+          <div className="mask-clip-path absolute-center absolute z-50 size-64 cursor-pointer overflow-hidden rounded-lg group">
             <div
               onClick={handleMiniVdClick}
               className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
@@ -138,6 +142,31 @@ export const Hero = () => {
                 className="size-64 origin-center scale-150 object-cover object-center"
               />
             </div>
+
+            {/* Discovery beacon: teaches new visitors that the center is
+                interactive. Fades out on hover (revealing the mini preview)
+                and disappears for good after the first click. Purely
+                decorative + pointer-events-none, so it never blocks the
+                existing click/hover behavior. */}
+            {!hasClicked && (
+              <div className="pointer-events-none absolute inset-0 z-[60] transition-opacity duration-500 group-hover:opacity-0">
+                {/* Sonar rings rippling outward — centered with inset-0 + auto
+                    margins so the scale animation pulses around the shared
+                    center (transform stays free for the keyframes). */}
+                <span className="absolute inset-0 m-auto size-20 rounded-full border border-accent/60 [animation:hero-sonar_2.4s_ease-out_infinite]" />
+                <span className="absolute inset-0 m-auto size-20 rounded-full border border-accent/60 [animation:hero-sonar_2.4s_ease-out_infinite] [animation-delay:1.2s]" />
+
+                {/* Pulsing accent core with a play glyph — same shared center */}
+                <span className="absolute inset-0 m-auto flex size-12 items-center justify-center rounded-full bg-accent text-black [animation:hero-beacon-pulse_2.4s_ease-in-out_infinite]">
+                  <Play className="ml-0.5" size={20} fill="currentColor" />
+                </span>
+
+                {/* On-brand hint label — horizontally centered, just below core */}
+                <span className="absolute inset-x-0 top-[calc(50%+2.25rem)] text-center font-general text-[10px] uppercase tracking-[0.2em] text-primary-100 [animation:hero-hint-bob_2.4s_ease-in-out_infinite]">
+                  Hover &amp; Click
+                </span>
+              </div>
+            )}
           </div>
 
           <video
