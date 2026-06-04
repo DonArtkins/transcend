@@ -3,6 +3,7 @@
 import { ReactNode, useRef, useState, MouseEvent } from "react";
 import Image from "next/image";
 import { TiLocationArrow } from "react-icons/ti";
+import { OptimizedVideo } from "./OptimizedVideo";
 
 interface BentoTiltProps {
   children: ReactNode;
@@ -73,13 +74,13 @@ const BentoCard = ({
   return (
     <div className="relative size-full">
       {src.endsWith(".mp4") ? (
-        <video
+        <OptimizedVideo
           src={src}
           autoPlay
           loop
           muted
-          playsInline
-          className="absolute left-0 top-0 size-full object-cover object-center"
+          wrapperClassName="absolute left-0 top-0"
+          className="size-full object-cover object-center"
         />
       ) : (
         <Image
@@ -109,14 +110,14 @@ const BentoCard = ({
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-white/20"
+            className="border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-accent/60 transition-colors duration-300 hover:text-accent"
           >
-            {/* Radial light that follows the cursor */}
+            {/* Radial light that follows the cursor - tinted with the accent */}
             <div
               className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
               style={{
                 opacity: hovered ? 1 : 0,
-                background: `radial-gradient(120px circle at ${cursorPos.x}px ${cursorPos.y}px, #656fe288, #00000026)`,
+                background: `radial-gradient(120px circle at ${cursorPos.x}px ${cursorPos.y}px, #fde04766, #00000026)`,
               }}
             />
             <TiLocationArrow className="relative z-20" />
@@ -146,7 +147,7 @@ export const Features = () => {
 
         <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65dvh]">
           <BentoCard
-            src="https://www.pexels.com/download/video/35967934/35967934_1920_1080_30fps.mp4"
+            src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569249/DNA_1_lduutc.mp4"
             title={
               <>
                 Lumi<b>n</b>a
@@ -159,7 +160,7 @@ export const Features = () => {
         <div className="grid h-[135dvh] w-full grid-cols-2 grid-rows-3 gap-7">
           <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2">
             <BentoCard
-              src="https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/World_1_niu7i3.mp4"
               title={
                 <>
                   Aet<b>h</b>er
@@ -171,7 +172,7 @@ export const Features = () => {
 
           <BentoTilt className="bento-tilt_1 row-span-1 ms-32 md:col-span-1 md:ms-0">
             <BentoCard
-              src="https://videos.pexels.com/video-files/1191544/1191544-hd_1920_1080_24fps.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569261/Synapse_2_jrhctw.mp4"
               title={
                 <>
                   Syn<b>a</b>pse
@@ -183,7 +184,7 @@ export const Features = () => {
 
           <BentoTilt className="bento-tilt_1 me-14 md:col-span-1 md:me-0">
             <BentoCard
-              src="https://videos.pexels.com/video-files/5532777/5532777-uhd_2160_4096_25fps.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4"
               title={
                 <>
                   Or<b>i</b>on
@@ -199,17 +200,16 @@ export const Features = () => {
               <h1 className="bento-title special-font max-w-64 text-black">
                 M<b>o</b>re co<b>m</b>ing s<b>o</b>on.
               </h1>
-              <TiLocationArrow className="m-5 scale-[5] self-end text-black" />
+              <TiLocationArrow className="m-5 scale-[20] self-end text-black" />
             </div>
           </BentoTilt>
 
           <BentoTilt className="bento-tilt_2">
-            <video
-              src="https://videos.pexels.com/video-files/3129671/3129671-hd_1920_1080_30fps.mp4"
+            <OptimizedVideo
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571772/Bento_2_f9vp2n.mp4"
               autoPlay
               loop
               muted
-              playsInline
               className="size-full object-cover object-center"
             />
           </BentoTilt>

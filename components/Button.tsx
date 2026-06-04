@@ -12,18 +12,25 @@ interface ButtonProps {
   onClick?: () => void;
 }
 
-export const Button = ({ id, title, leftIcon, rightIcon, containerClass, onClick }: ButtonProps) => {
+export const Button = ({
+  id,
+  title,
+  leftIcon,
+  rightIcon,
+  containerClass,
+  onClick,
+}: ButtonProps) => {
   return (
     <button
       id={id}
       onClick={onClick}
       className={clsx(
-        "group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full px-7 py-3 text-black transition-all duration-500 hover:scale-105",
-        containerClass || "bg-yellow-300"
+        "group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full px-7 py-3 text-black transition-colors duration-500",
+        containerClass || "bg-accent",
       )}
     >
       {leftIcon}
-      
+
       <span className="relative inline-flex overflow-hidden font-general text-xs uppercase font-semibold">
         <div className="translate-y-0 transition-transform duration-500 group-hover:-translate-y-[160%]">
           {title}

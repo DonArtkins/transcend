@@ -92,7 +92,7 @@ export const Story = () => {
             <Button
               id="realm-btn"
               title="Discover Prologue"
-              containerClass="bg-white text-black font-bold"
+              containerClass="bg-accent text-black font-bold"
             />
           </div>
         </div>

@@ -16,6 +16,7 @@ export const Navbar = () => {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isNavVisible, setIsNavVisible] = useState(true);
   const [indicatorHeights, setIndicatorHeights] = useState([4, 4, 4, 4]);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +36,28 @@ export const Navbar = () => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [lastScrollY]);
+
+  useEffect(() => {
+    const sections = navItems
+      .map((item) => document.getElementById(item.toLowerCase()))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (sections.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     gsap.to(navContainerRef.current, {
@@ -76,8 +99,9 @@ export const Navbar = () => {
       <header className="absolute top-1/2 w-full -translate-y-1/2">
         <nav className="flex size-full items-center justify-between p-4 mix-blend-difference text-white">
           <div className="flex items-center gap-7">
-            <span className="special-font text-3xl tracking-widest text-primary font-bold ml-4">
-              TRNS
+            <span className="special-font text-3xl tracking-widest font-bold ml-4">
+              <span className="text-accent">TR</span>
+              <span className="text-primary">NS.</span>
             </span>
 
             <Button
@@ -86,7 +110,7 @@ export const Navbar = () => {
               rightIcon={
                 <span className="ml-2 w-2 h-2 rounded-full bg-black/60 inline-block" />
               }
-              containerClass="bg-blue-50 md:flex hidden items-center justify-center gap-1 !px-4 !py-2 !text-xs"
+              containerClass="bg-accent md:flex hidden items-center justify-center gap-1 !px-4 !py-2 !text-xs"
             />
           </div>
 
@@ -96,7 +120,10 @@ export const Navbar = () => {
                 <a
                   key={index}
                   href={`#${item.toLowerCase()}`}
-                  className="nav-hover-btn"
+                  className={clsx(
+                    "nav-hover-btn",
+                    activeSection === item.toLowerCase() && "is-active",
+                  )}
                 >
                   {item}
                 </a>

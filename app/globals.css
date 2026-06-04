@@ -49,13 +49,14 @@
   --font-robert-regular: "robert-regular", ui-sans-serif, system-ui, sans-serif;
 
   /* Custom Colors */
+  --color-primary: #f0f2fa;
   --color-primary-50: #dfdff0;
   --color-primary-75: #dfdff2;
   --color-primary-100: #f0f2fa;
   --color-primary-200: #010101;
   --color-primary-300: #4fb7dd;
 
-  --color-accent: #5724ff;
+  --color-accent: #fde047;
 
   --color-secondary-100: #8e983f;
   --color-secondary-300: #edff66;
@@ -90,6 +91,7 @@ body {
   text-transform: uppercase;
   color: #dfdff0;
   cursor: pointer;
+  transition: color 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
 
   &::after {
     content: "";
@@ -98,10 +100,14 @@ body {
     left: 0;
     height: 2px;
     width: 100%;
-    background-color: rgb(38 38 38);
+    background-color: var(--color-accent);
     transform-origin: bottom right;
     transform: scaleX(0);
     transition: transform 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+  }
+
+  &:hover {
+    color: var(--color-accent);
   }
 
   &:hover::after {
@@ -109,10 +115,13 @@ body {
     transform: scaleX(1);
   }
 
-  @media (prefers-color-scheme: dark) {
-    &::after {
-      background-color: white;
-    }
+  &.is-active {
+    color: var(--color-accent);
+  }
+
+  &.is-active::after {
+    transform-origin: bottom left;
+    transform: scaleX(1);
   }
 }
 
@@ -374,6 +383,7 @@ body {
 }
 
 .indicator-line.active {
+  background-color: var(--color-accent);
   animation: indicator-line 0.5s ease infinite;
   animation-delay: calc(var(--animation-order) * 0.1s);
 }
