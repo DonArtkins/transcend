@@ -5,27 +5,70 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Button } from "./Button";
 import { Play } from "lucide-react";
+import { cldPoster, cldVideo } from "@/lib/utils";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+const VIDEO_URLS = [
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571919/Hero_1_vohtra.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571915/Hero_2_pkk5ng.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569249/DNA_1_lduutc.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/World_1_niu7i3.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569261/Synapse_2_jrhctw.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569379/DNA_2_t166uz.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569354/Orion_1_rh2nuj.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569315/Orion_3_nyqzb3.mp4",
+];
+
+const totalVideos = VIDEO_URLS.length;
+
+const getVideoSrc = (index: number) =>
+  cldVideo(VIDEO_URLS[(index - 1) % totalVideos]);
+
+const getPosterSrc = (index: number) =>
+  cldPoster(VIDEO_URLS[(index - 1) % totalVideos]);
+
+/**
+ * Play a video while gracefully swallowing the AbortError that the browser
+ * throws when a pending play() is interrupted by a new load (rapid clicks).
+ */
+const safePlay = (video: HTMLVideoElement | null) => {
+  if (!video) return;
+  const playback = video.play();
+  if (playback !== undefined) {
+    playback.catch(() => {
+      /* interrupted by a new load – safe to ignore */
+    });
+  }
+};
+
 export const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
 
-  const totalVideos = 9;
+  // Locks out new clicks while a transition animation is in flight. This is
+  // what stops rapid consecutive clicks from interrupting the play() request
+  // and leaving the videos in a blurry / broken state.
+  const isTransitioning = useRef(false);
+
   const nextVdRef = useRef<HTMLVideoElement>(null);
 
   const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
 
   const handleMiniVdClick = () => {
+    if (isTransitioning.current) return;
+    isTransitioning.current = true;
     setHasClicked(true);
     setCurrentIndex(upcomingVideoIndex);
   };
 
   useEffect(() => {
-    if (hasClicked) {
+    if (!hasClicked) return;
+
+    const ctx = gsap.context(() => {
       gsap.set("#next-video", { visibility: "visible" });
 
       gsap.to("#next-video", {
@@ -35,10 +78,10 @@ export const Hero = () => {
         height: "100%",
         duration: 1,
         ease: "power1.inOut",
-        onStart: () => {
-          if (nextVdRef.current) {
-            nextVdRef.current.play();
-          }
+        onStart: () => safePlay(nextVdRef.current),
+        onComplete: () => {
+          // Transition finished – accept the next click.
+          isTransitioning.current = false;
         },
       });
 
@@ -48,7 +91,9 @@ export const Hero = () => {
         duration: 1.5,
         ease: "power1.inOut",
       });
-    }
+    });
+
+    return () => ctx.revert();
   }, [hasClicked, currentIndex]);
 
   useEffect(() => {
@@ -70,21 +115,6 @@ export const Hero = () => {
     });
   }, []);
 
-  const getVideoSrc = (index: number) => {
-    const urls = [
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571919/Hero_1_vohtra.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571915/Hero_2_pkk5ng.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569249/DNA_1_lduutc.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/World_1_niu7i3.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569261/Synapse_2_jrhctw.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569379/DNA_2_t166uz.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569354/Orion_1_rh2nuj.mp4",
-      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569315/Orion_3_nyqzb3.mp4",
-    ];
-    return urls[(index - 1) % urls.length];
-  };
-
   return (
     <div className="relative h-[100dvh] w-screen overflow-x-hidden bg-blue-50">
       <div
@@ -98,10 +128,12 @@ export const Hero = () => {
               className="origin-center scale-50 opacity-0 transition-all duration-500 ease-in hover:scale-100 hover:opacity-100"
             >
               <video
-                ref={nextVdRef}
                 src={getVideoSrc(upcomingVideoIndex)}
+                poster={getPosterSrc(upcomingVideoIndex)}
                 loop
                 muted
+                playsInline
+                preload="metadata"
                 id="current-video"
                 className="size-64 origin-center scale-150 object-cover object-center"
               />
@@ -111,8 +143,11 @@ export const Hero = () => {
           <video
             ref={nextVdRef}
             src={getVideoSrc(currentIndex)}
+            poster={getPosterSrc(currentIndex)}
             loop
             muted
+            playsInline
+            preload="metadata"
             id="next-video"
             className="absolute left-1/2 top-1/2 z-20 size-64 -translate-x-1/2 -translate-y-1/2 object-cover object-center invisible"
           />
@@ -121,9 +156,14 @@ export const Hero = () => {
             src={getVideoSrc(
               currentIndex === totalVideos - 1 ? 1 : currentIndex,
             )}
+            poster={getPosterSrc(
+              currentIndex === totalVideos - 1 ? 1 : currentIndex,
+            )}
             autoPlay
             loop
             muted
+            playsInline
+            preload="metadata"
             className="absolute left-0 top-0 size-full object-cover object-center"
           />
         </div>

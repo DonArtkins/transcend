@@ -25,7 +25,7 @@ export const Button = ({
       id={id}
       onClick={onClick}
       className={clsx(
-        "group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full px-7 py-3 text-black transition-all duration-500 hover:scale-105",
+        "group relative z-10 w-fit cursor-pointer overflow-hidden rounded-full px-7 py-3 text-black transition-colors duration-500",
         containerClass || "bg-accent",
       )}
     >

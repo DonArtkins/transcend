@@ -3,6 +3,7 @@
 import { ReactNode, useRef, useState, MouseEvent } from "react";
 import Image from "next/image";
 import { TiLocationArrow } from "react-icons/ti";
+import { OptimizedVideo } from "./OptimizedVideo";
 
 interface BentoTiltProps {
   children: ReactNode;
@@ -73,13 +74,13 @@ const BentoCard = ({
   return (
     <div className="relative size-full">
       {src.endsWith(".mp4") ? (
-        <video
+        <OptimizedVideo
           src={src}
           autoPlay
           loop
           muted
-          playsInline
-          className="absolute left-0 top-0 size-full object-cover object-center"
+          wrapperClassName="absolute left-0 top-0"
+          className="size-full object-cover object-center"
         />
       ) : (
         <Image
@@ -109,14 +110,14 @@ const BentoCard = ({
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
-            className="border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-white/20"
+            className="border-hsla relative flex w-fit cursor-pointer items-center gap-1 overflow-hidden rounded-full bg-black px-5 py-2 text-xs uppercase text-accent/60 transition-colors duration-300 hover:text-accent"
           >
-            {/* Radial light that follows the cursor */}
+            {/* Radial light that follows the cursor - tinted with the accent */}
             <div
               className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
               style={{
                 opacity: hovered ? 1 : 0,
-                background: `radial-gradient(120px circle at ${cursorPos.x}px ${cursorPos.y}px, #656fe288, #00000026)`,
+                background: `radial-gradient(120px circle at ${cursorPos.x}px ${cursorPos.y}px, #fde04766, #00000026)`,
               }}
             />
             <TiLocationArrow className="relative z-20" />
@@ -204,12 +205,11 @@ export const Features = () => {
           </BentoTilt>
 
           <BentoTilt className="bento-tilt_2">
-            <video
+            <OptimizedVideo
               src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571772/Bento_2_f9vp2n.mp4"
               autoPlay
               loop
               muted
-              playsInline
               className="size-full object-cover object-center"
             />
           </BentoTilt>
