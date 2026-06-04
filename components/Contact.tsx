@@ -43,7 +43,7 @@ export const Contact = () => {
           <div className="mt-14">
             <Button
               title="Contact Us"
-              containerClass="bg-yellow-300 text-black px-10"
+              containerClass="bg-accent text-black px-10"
             />
           </div>
         </div>

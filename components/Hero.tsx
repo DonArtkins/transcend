@@ -140,7 +140,7 @@ export const Hero = () => {
               id="watch-trailer"
               title="Watch Trailer"
               leftIcon={<Play className="mr-2 icon-sm" size={16} />}
-              containerClass="bg-primary-100 flex items-center justify-center gap-1"
+              containerClass="bg-accent flex items-center justify-center gap-1"
             />
           </div>
         </div>
