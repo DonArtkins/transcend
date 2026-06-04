@@ -503,3 +503,43 @@ body {
     opacity: 0.8;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Hero discovery beacon                                              */
+/* A gentle, on-brand "sonar" that teaches new visitors the center of */
+/* the hero is interactive (hover to preview, click to shift videos). */
+/* It fades on hover to reveal the mini-video and is removed entirely  */
+/* after the first interaction, so it never gets in the way.          */
+/* ------------------------------------------------------------------ */
+@keyframes hero-sonar {
+  0% {
+    transform: scale(0.55);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.3);
+    opacity: 0;
+  }
+}
+
+@keyframes hero-beacon-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgb(253 224 71 / 0.45);
+  }
+  50% {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 12px rgb(253 224 71 / 0);
+  }
+}
+
+@keyframes hero-hint-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+}
