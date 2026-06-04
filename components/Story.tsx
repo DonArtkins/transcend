@@ -73,7 +73,7 @@ export const Story = () => {
                 onMouseLeave={handleMouseLeave}
                 onMouseUp={handleMouseLeave}
                 onMouseEnter={handleMouseLeave}
-                src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+                src="https://res.cloudinary.com/dqyzd8vqh/image/upload/v1780599609/Dangeon_fa9zmz.png"
                 alt="entrance"
                 fill
                 className="object-cover w-full h-full"
