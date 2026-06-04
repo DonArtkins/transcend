@@ -146,7 +146,7 @@ export const Features = () => {
 
         <BentoTilt className="border-hsla relative mb-7 h-96 w-full overflow-hidden rounded-md md:h-[65dvh]">
           <BentoCard
-            src="/videos/DNA_1.mp4"
+            src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569249/DNA_1_lduutc.mp4"
             title={
               <>
                 Lumi<b>n</b>a
@@ -159,7 +159,7 @@ export const Features = () => {
         <div className="grid h-[135dvh] w-full grid-cols-2 grid-rows-3 gap-7">
           <BentoTilt className="bento-tilt_1 row-span-1 md:col-span-1 md:row-span-2">
             <BentoCard
-              src="/videos/World_1.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/World_1_niu7i3.mp4"
               title={
                 <>
                   Aet<b>h</b>er
@@ -171,7 +171,7 @@ export const Features = () => {
 
           <BentoTilt className="bento-tilt_1 row-span-1 ms-32 md:col-span-1 md:ms-0">
             <BentoCard
-              src="/videos/Synapse_2.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569261/Synapse_2_jrhctw.mp4"
               title={
                 <>
                   Syn<b>a</b>pse
@@ -183,7 +183,7 @@ export const Features = () => {
 
           <BentoTilt className="bento-tilt_1 me-14 md:col-span-1 md:me-0">
             <BentoCard
-              src="/videos/Orion_2.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4"
               title={
                 <>
                   Or<b>i</b>on
@@ -205,7 +205,7 @@ export const Features = () => {
 
           <BentoTilt className="bento-tilt_2">
             <video
-              src="/videos/Bento.mp4"
+              src="https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571772/Bento_2_f9vp2n.mp4"
               autoPlay
               loop
               muted

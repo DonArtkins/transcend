@@ -14,7 +14,7 @@ export const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
   const [hasClicked, setHasClicked] = useState(false);
 
-  const totalVideos = 4;
+  const totalVideos = 9;
   const nextVdRef = useRef<HTMLVideoElement>(null);
 
   const upcomingVideoIndex = (currentIndex % totalVideos) + 1;
@@ -72,8 +72,15 @@ export const Hero = () => {
 
   const getVideoSrc = (index: number) => {
     const urls = [
-      "https://videos.pexels.com/video-files/3163534/3163534-hd_1920_1080_30fps.mp4",
-      "https://videos.pexels.com/video-files/1851190/1851190-hd_1920_1080_25fps.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571919/Hero_1_vohtra.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571915/Hero_2_pkk5ng.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569249/DNA_1_lduutc.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/World_1_niu7i3.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569261/Synapse_2_jrhctw.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569379/DNA_2_t166uz.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569354/Orion_1_rh2nuj.mp4",
+      "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569315/Orion_3_nyqzb3.mp4",
     ];
     return urls[(index - 1) % urls.length];
   };
