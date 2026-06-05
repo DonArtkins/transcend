@@ -12,13 +12,13 @@ if (typeof window !== "undefined") {
 }
 
 const VIDEO_URLS = [
-  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571919/Hero_1_vohtra.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571915/Hero_2_pkk5ng.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569249/DNA_1_lduutc.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/World_1_niu7i3.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569261/Synapse_2_jrhctw.mp4",
-  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569388/Orion_2_bxssff.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569379/DNA_2_t166uz.mp4",
+  "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780571919/Hero_1_vohtra.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569354/Orion_1_rh2nuj.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780569315/Orion_3_nyqzb3.mp4",
   "https://res.cloudinary.com/dqyzd8vqh/video/upload/v1780585133/BENTO_4_rwiwxu.mp4",
