@@ -40,15 +40,30 @@ export const Loader = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       {isLoading && (
-        <div className="flex-center fixed inset-0 z-[9999] h-[100dvh] w-screen items-center justify-center overflow-hidden bg-violet-50">
-          <div className="three-body">
-            <div className="three-body__dot" />
-            <div className="three-body__dot" />
-            <div className="three-body__dot" />
+        <div className="flex-center fixed inset-0 z-[9999] h-[100dvh] w-screen flex-col gap-8 overflow-hidden bg-black">
+          {/* Ambient cosmic glow that mirrors the hero / footer sections */}
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute left-1/2 top-1/2 h-[60vh] w-[60vw] -translate-x-1/2 -translate-y-1/2 rounded-full bg-violet-600/20 blur-[140px]" />
+            <div className="absolute bottom-0 right-0 h-72 w-72 rounded-full bg-accent/10 blur-[120px]" />
           </div>
-          <span className="ml-4 font-general text-black">
-            Loading Transcendance...
-          </span>
+
+          {/* Nexus portal: counter-rotating orbital rings + pulsing core */}
+          <div className="nexus-loader relative z-10">
+            <span className="nexus-loader__ring" />
+            <span className="nexus-loader__ring" />
+            <span className="nexus-loader__ring" />
+            <span className="nexus-loader__core" />
+          </div>
+
+          {/* Brand + loading label */}
+          <div className="relative z-10 flex flex-col items-center gap-2">
+            <h2 className="special-font text-2xl font-black uppercase leading-none tracking-wider text-primary-100">
+              Tr<b>a</b>nsc<b>e</b>nd
+            </h2>
+            <span className="nexus-loader-text font-general text-xs uppercase tracking-[0.35em]">
+              Entering the Nexus...
+            </span>
+          </div>
         </div>
       )}
 

@@ -73,6 +73,40 @@ body {
     "calt" 1;
 }
 
+/* ------------------------------------------------------------------ */
+/* Themed thin scrollbar                                              */
+/* A slim 6px rail with a violet→accent gradient thumb that echoes the */
+/* cosmic / accent palette used across the site. Falls back to the    */
+/* Firefox `scrollbar-*` properties where the WebKit pseudo-elements  */
+/* aren't supported.                                                  */
+/* ------------------------------------------------------------------ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-accent) black;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: black;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 9999px;
+  background: var(--color-accent);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+}
+
+::-webkit-scrollbar-corner {
+  background: black;
+}
+
 /* Custom Utilities - Using @utility directive for v4 */
 @utility border-hsla {
   border: 1px solid rgb(255 255 255 / 0.2);
@@ -403,104 +437,158 @@ body {
   }
 }
 
-/* Three Body Loader Animation */
-.three-body {
-  --uib-size: 35px;
-  --uib-speed: 0.8s;
-  --uib-color: #5d3fd3;
+/* ------------------------------------------------------------------ */
+/* Transcend Loader                                                   */
+/* An on-brand "Nexus portal": concentric orbital rings rotating in   */
+/* opposite directions around a pulsing accent core, set on the same  */
+/* black + violet-glow canvas used across the site. Replaces the       */
+/* generic Zentry "three-body" spinner.                               */
+/* ------------------------------------------------------------------ */
+.nexus-loader {
+  --nl-size: 7rem;
   position: relative;
   display: inline-block;
-  height: var(--uib-size);
-  width: var(--uib-size);
-  animation: spin78236 calc(var(--uib-speed) * 2.5) infinite linear;
+  height: var(--nl-size);
+  width: var(--nl-size);
 }
 
-.three-body__dot {
+/* Each orbital ring */
+.nexus-loader__ring {
   position: absolute;
-  height: 100%;
-  width: 30%;
+  inset: 0;
+  border-radius: 9999px;
+  border: 2px solid transparent;
 }
 
-.three-body__dot::after {
-  content: "";
+/* Outer ring — accent leading edge, slow clockwise spin */
+.nexus-loader__ring:nth-child(1) {
+  border-top-color: var(--color-accent, #fde047);
+  border-right-color: rgb(253 224 71 / 0.25);
+  animation: nexus-spin 1.6s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+/* Middle ring — violet leading edge, faster counter-clockwise spin */
+.nexus-loader__ring:nth-child(2) {
+  inset: 1.1rem;
+  border-bottom-color: #5d3fd3;
+  border-left-color: rgb(93 63 211 / 0.3);
+  animation: nexus-spin-reverse 1.15s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+}
+
+/* Inner ring — soft white leading edge */
+.nexus-loader__ring:nth-child(3) {
+  inset: 2.2rem;
+  border-top-color: rgb(255 255 255 / 0.7);
+  animation: nexus-spin 0.85s linear infinite;
+}
+
+/* Pulsing accent core at the center of the portal */
+.nexus-loader__core {
   position: absolute;
-  height: 0%;
-  width: 100%;
-  padding-bottom: 100%;
-  background-color: var(--uib-color);
-  border-radius: 50%;
+  inset: 0;
+  margin: auto;
+  height: 0.85rem;
+  width: 0.85rem;
+  border-radius: 9999px;
+  background-color: var(--color-accent, #fde047);
+  box-shadow: 0 0 16px 2px rgb(253 224 71 / 0.6);
+  animation: nexus-core-pulse 1.6s ease-in-out infinite;
 }
 
-.three-body__dot:nth-child(1) {
-  bottom: 5%;
-  left: 0;
-  transform: rotate(60deg);
-  transform-origin: 50% 85%;
-}
-
-.three-body__dot:nth-child(1)::after {
-  bottom: 0;
-  left: 0;
-  animation: wobble1 var(--uib-speed) infinite ease-in-out;
-  animation-delay: calc(var(--uib-speed) * -0.3);
-}
-
-.three-body__dot:nth-child(2) {
-  bottom: 5%;
-  right: 0;
-  transform: rotate(-60deg);
-  transform-origin: 50% 85%;
-}
-
-.three-body__dot:nth-child(2)::after {
-  bottom: 0;
-  left: 0;
-  animation: wobble1 var(--uib-speed) infinite calc(var(--uib-speed) * -0.15)
-    ease-in-out;
-}
-
-.three-body__dot:nth-child(3) {
-  bottom: -5%;
-  left: 0;
-  transform: translateX(116.666%);
-}
-
-.three-body__dot:nth-child(3)::after {
-  top: 0;
-  left: 0;
-  animation: wobble2 var(--uib-speed) infinite ease-in-out;
-}
-
-@keyframes spin78236 {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
+@keyframes nexus-spin {
+  to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes wobble1 {
-  0%,
-  100% {
-    transform: translateY(0%) scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-66%) scale(0.65);
-    opacity: 0.8;
+@keyframes nexus-spin-reverse {
+  to {
+    transform: rotate(-360deg);
   }
 }
 
-@keyframes wobble2 {
+@keyframes nexus-core-pulse {
   0%,
   100% {
-    transform: translateY(0%) scale(1);
+    transform: scale(1);
     opacity: 1;
   }
   50% {
-    transform: translateY(66%) scale(0.65);
-    opacity: 0.8;
+    transform: scale(1.6);
+    opacity: 0.65;
+  }
+}
+
+/* Loader label: subtle shimmer sweeping across the text */
+@keyframes nexus-text-shimmer {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+.nexus-loader-text {
+  background: linear-gradient(
+    90deg,
+    rgb(223 223 240 / 0.35) 0%,
+    rgb(223 223 240 / 0.35) 40%,
+    var(--color-accent, #fde047) 50%,
+    rgb(223 223 240 / 0.35) 60%,
+    rgb(223 223 240 / 0.35) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: nexus-text-shimmer 2.6s linear infinite;
+}
+
+/* ------------------------------------------------------------------ */
+/* 404 page glitch                                                    */
+/* A subtle RGB-split flicker on the big "404" that fits the digital  */
+/* / cyber feel of the site without being distracting.                */
+/* ------------------------------------------------------------------ */
+@keyframes glitch-shift {
+  0%,
+  92%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  93% {
+    transform: translate(-3px, 1px);
+    opacity: 0.75;
+  }
+  95% {
+    transform: translate(3px, -1px);
+    opacity: 0.75;
+  }
+  97% {
+    transform: translate(-2px, -1px);
+    opacity: 0.75;
+  }
+}
+
+@keyframes glitch-shift-alt {
+  0%,
+  90%,
+  100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  91% {
+    transform: translate(3px, -1px);
+    opacity: 0.7;
+  }
+  94% {
+    transform: translate(-3px, 1px);
+    opacity: 0.7;
+  }
+  96% {
+    transform: translate(2px, 1px);
+    opacity: 0.7;
   }
 }
 
