@@ -117,7 +117,7 @@ const BentoCard = ({
               className="pointer-events-none absolute -inset-px opacity-0 transition-opacity duration-300"
               style={{
                 opacity: hovered ? 1 : 0,
-                background: `radial-gradient(120px circle at ${cursorPos.x}px ${cursorPos.y}px, #fde04766, #00000026)`,
+                background: `radial-gradient(120px circle at ${cursorPos.x}px ${cursorPos.y}px, rgb(var(--accent-rgb) / 0.4), rgb(0 0 0 / 0.15))`,
               }}
             />
             <TiLocationArrow className="relative z-20" />

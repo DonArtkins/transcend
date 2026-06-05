@@ -87,9 +87,18 @@ existing universe:
   function components exported by name (e.g. `export const Hero = () => { ... }`).
 - **Tailwind for styling.** Reach for utility classes first. Shared visual effects
   belong in `app/globals.css` as `@theme` tokens or `@utility` classes — don't
-  hard-code the accent color, use `var(--color-accent)` / `text-accent`.
-- **Respect the palette.** The signature electric gold (`#fde047`) and cosmic
-  off-white (`#f0f2fa`) carry the brand. New colors should be deliberate and tokenized.
+  hard-code values. Use the tokens: `text-accent` / `var(--color-accent)` for color,
+  `font-zentry` for type, `rounded-frame` / `rounded-card` for radii, and the
+  `--spacing-*` tokens for global padding/margins. For a color at custom opacity,
+  use the channel tokens (e.g. `rgb(var(--accent-rgb) / 0.4)`).
+- **One source of truth.** Every color, font, radius, shadow, easing curve, and
+  global spacing value is defined once in the `@theme` block of `app/globals.css`.
+  If you need a new design value, add a token there rather than inlining a hex,
+  rem, or `cubic-bezier()` in a component or utility.
+- **Respect the palette.** The signature electric gold (`--color-accent` / `#fde047`)
+  and cosmic off-white (`--color-primary` / `#f0f2fa`), plus the cosmic violets
+  (`--color-violet`, `--color-violet-deep`), carry the brand. New colors should be
+  deliberate and tokenized.
 - **Animation with GSAP.** Use `gsap.context()` and clean up with `ctx.revert()` in
   effects. Register plugins behind a `typeof window !== "undefined"` guard, mirroring
   the existing components.
