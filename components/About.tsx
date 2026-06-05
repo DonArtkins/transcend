@@ -8,6 +8,10 @@ import Image from "next/image";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+  // See Hero.tsx: ignore the resize mobile browsers fire when the address bar
+  // shows/hides, so the pinned image lands flush to the top of the screen
+  // instead of leaving a gap. No effect on desktop.
+  ScrollTrigger.config({ ignoreMobileResize: true });
 }
 
 export const About = () => {

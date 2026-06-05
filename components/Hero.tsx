@@ -9,6 +9,13 @@ import { cldPoster, cldVideo } from "@/lib/utils";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
+  // Mobile browsers fire a resize event whenever the address bar shows/hides
+  // while scrolling, which shifts the visual viewport height/width. Left
+  // unchecked, ScrollTrigger recomputes pin + clip-path positions mid-scroll,
+  // making the hero reveal look like it "already started scrolling" (white
+  // edges) and pushing the pinned About image off the top. Ignoring that
+  // resize keeps the positions stable. No-op on desktop.
+  ScrollTrigger.config({ ignoreMobileResize: true });
 }
 
 const VIDEO_URLS = [
