@@ -126,18 +126,90 @@ transcend/
 
 ## ◇ Shaping the Realm (Theming)
 
-The cosmic identity lives in [`app/globals.css`](./app/globals.css). The core palette
-is defined as Tailwind `@theme` tokens:
+The entire cosmic identity lives as design tokens in
+[`app/globals.css`](./app/globals.css), inside a single Tailwind v4 `@theme`
+block. It's the one source of truth — adjust a token and the whole universe
+shifts with you. Nothing visual is hard-coded in components; they reference
+these tokens through Tailwind utilities (`text-accent`, `bg-primary-50`,
+`rounded-frame`) or `var(--token)`.
+
+### Color
 
 ```css
---color-primary: #f0f2fa;   /* luminous off-white */
---color-accent:  #fde047;   /* signature electric gold */
+/* Brand core — luminous off-whites */
+--color-primary:     #f0f2fa;
+--color-primary-50:  #dfdff0;   /* body background */
+--color-primary-75:  #dfdff2;
+--color-primary-100: #f0f2fa;
+--color-primary-200: #010101;
+--color-primary-300: #4fb7dd;
+
+/* Signature electric gold */
+--color-accent: #fde047;
+--accent-rgb:   253 224 71;     /* channels: rgb(var(--accent-rgb) / <alpha>) */
+
+/* Secondary acid-lime accents */
+--color-secondary-100: #8e983f;
+--color-secondary-300: #edff66;
+
+/* Cosmic violets */
+--color-violet:      #5d3fd3;   /* loader rings + ambient glow */
+--violet-rgb:        93 63 211; /* channels: rgb(var(--violet-rgb) / <alpha>) */
+--color-violet-deep: #5724ff;   /* gallery tile backdrop */
+
+/* Off-white channels for translucent gradients/text */
+--primary-50-rgb: 223 223 240;
 ```
 
-Custom typography (`zentry`, `general`, `circular-web`, `robert-*`) is loaded from
-`public/fonts`, and reusable visual effects live as `@utility` classes
-(`border-hsla`, `hero-heading`, `bento-tilt_*`, and more). Adjust the tokens and the
-whole universe shifts with you.
+> The `*-rgb` channel tokens exist so a single color can be reused at any
+> opacity via `rgb(var(--accent-rgb) / 0.4)` — used by the loader, hero beacon,
+> shimmer text, and the bento cursor glow.
+
+### Typography
+
+Custom faces are loaded from `public/fonts` via `@font-face` and exposed as
+font tokens (usable as `font-zentry`, `font-general`, etc.):
+
+```css
+--font-zentry:         "zentry", ui-sans-serif, system-ui, sans-serif;
+--font-general:        "general", …;   /* default body font */
+--font-circular:       "circular-web", …;
+--font-robert-medium:  "robert-medium", …;
+--font-robert-regular: "robert-regular", …;
+```
+
+### Radii, surfaces & motion
+
+```css
+/* Corner radii */
+--radius-card:  0.375rem;   /* bento tiles */
+--radius-frame: 0.5rem;     /* hero/contact cards, floating nav, gallery */
+
+/* Glass surfaces (the frosted outline + glow shared across cards) */
+--color-glass-border: rgb(255 255 255 / 0.2);
+--shadow-glass: inset 0 1px 1px …, inset 0 0 24px …, 0 18px 40px -12px …;
+
+/* Shared easing curve for nav + loader transitions */
+--ease-nav: cubic-bezier(0.65, 0.05, 0.36, 1);
+```
+
+### Global spacing rhythm
+
+The recurring layout rhythm (page padding, section spacing, nav offsets) is
+tokenized too, so the whole site breathes consistently:
+
+```css
+--spacing-page-x:      1.25rem;  /* base horizontal page padding */
+--spacing-page-x-lg:   5rem;     /* desktop horizontal page padding */
+--spacing-section-y:   6rem;     /* vertical section rhythm */
+--spacing-nav-offset:  1rem;     /* fixed nav top offset */
+--spacing-nav-link-gap:2.5rem;   /* gap between desktop nav links */
+--spacing-title-x:     8rem;     /* animated-title side padding (>=sm) */
+```
+
+Reusable visual effects (`border-hsla`, `hero-heading`, `bento-tilt_*`,
+`nav-hover-btn`, and more) live as `@utility` classes that consume these tokens,
+so there are no magic numbers or stray hex values scattered through the realm.
 
 ## ◇ Contributing
 

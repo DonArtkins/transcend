@@ -41,14 +41,19 @@
 }
 
 @theme {
-  /* Custom Fonts */
+  /* ===================================================================== */
+  /* Typography — custom display & body faces (loaded via @font-face above) */
+  /* ===================================================================== */
   --font-zentry: "zentry", ui-sans-serif, system-ui, sans-serif;
   --font-general: "general", ui-sans-serif, system-ui, sans-serif;
   --font-circular: "circular-web", ui-sans-serif, system-ui, sans-serif;
   --font-robert-medium: "robert-medium", ui-sans-serif, system-ui, sans-serif;
   --font-robert-regular: "robert-regular", ui-sans-serif, system-ui, sans-serif;
 
-  /* Custom Colors */
+  /* ===================================================================== */
+  /* Color palette                                                         */
+  /* ===================================================================== */
+  /* Brand core — luminous off-whites */
   --color-primary: #f0f2fa;
   --color-primary-50: #dfdff0;
   --color-primary-75: #dfdff2;
@@ -56,17 +61,59 @@
   --color-primary-200: #010101;
   --color-primary-300: #4fb7dd;
 
+  /* Signature electric gold */
   --color-accent: #fde047;
+  --accent-rgb: 253 224 71; /* channels for rgb(var(--accent-rgb) / <alpha>) */
 
+  /* Secondary acid-lime accents */
   --color-secondary-100: #8e983f;
   --color-secondary-300: #edff66;
+
+  /* Cosmic violets */
+  --color-violet: #5d3fd3; /* loader orbital ring / ambient glow */
+  --violet-rgb: 93 63 211; /* channels for rgb(var(--violet-rgb) / <alpha>) */
+  --color-violet-deep: #5724ff; /* gallery tile backdrop */
+
+  /* Off-white channels (for translucent gradients/text) */
+  --primary-50-rgb: 223 223 240; /* matches --color-primary-50 (#dfdff0) */
+
+  /* ===================================================================== */
+  /* Corner radii                                                          */
+  /* ===================================================================== */
+  --radius-card: 0.375rem; /* bento tiles */
+  --radius-frame: 0.5rem; /* hero / contact cards, floating nav, gallery */
+
+  /* ===================================================================== */
+  /* Elevation & glass surfaces                                            */
+  /* ===================================================================== */
+  --color-glass-border: rgb(255 255 255 / 0.2);
+  --shadow-glass:
+    inset 0 1px 1px rgb(255 255 255 / 0.25),
+    inset 0 0 24px rgb(255 255 255 / 0.04), 0 18px 40px -12px rgb(0 0 0 / 0.7);
+
+  /* ===================================================================== */
+  /* Global spacing rhythm                                                 */
+  /* (mirrors the Tailwind scale the layout already leans on:              */
+  /*  page-x = px-5, page-x-lg = px-20, section-y = py-24)                 */
+  /* ===================================================================== */
+  --spacing-page-x: 1.25rem; /* base horizontal page padding */
+  --spacing-page-x-lg: 5rem; /* desktop horizontal page padding */
+  --spacing-section-y: 6rem; /* vertical section rhythm */
+  --spacing-nav-offset: 1rem; /* fixed nav top offset */
+  --spacing-nav-link-gap: 2.5rem; /* gap between desktop nav links */
+  --spacing-title-x: 8rem; /* animated-title side padding (>=sm) */
+
+  /* ===================================================================== */
+  /* Motion                                                                */
+  /* ===================================================================== */
+  --ease-nav: cubic-bezier(0.65, 0.05, 0.36, 1);
 }
 
 /* Global body styles */
 body {
-  font-family: "general", sans-serif;
+  font-family: var(--font-general);
   width: 100dvw;
-  background-color: #dfdff0;
+  background-color: var(--color-primary-50);
   overflow-x: hidden;
   font-feature-settings:
     "rlig" 1,
@@ -109,23 +156,20 @@ body {
 
 /* Custom Utilities - Using @utility directive for v4 */
 @utility border-hsla {
-  border: 1px solid rgb(255 255 255 / 0.2);
-  box-shadow:
-    inset 0 1px 1px rgb(255 255 255 / 0.25),
-    inset 0 0 24px rgb(255 255 255 / 0.04),
-    0 18px 40px -12px rgb(0 0 0 / 0.7);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-glass);
 }
 
 @utility nav-hover-btn {
   position: relative;
-  margin-left: 2.5rem;
-  font-family: "general", sans-serif;
+  margin-left: var(--spacing-nav-link-gap);
+  font-family: var(--font-general);
   font-size: 0.75rem;
   line-height: 1rem;
   text-transform: uppercase;
-  color: #dfdff0;
+  color: var(--color-primary-50);
   cursor: pointer;
-  transition: color 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+  transition: color 0.3s var(--ease-nav);
 
   &::after {
     content: "";
@@ -137,7 +181,7 @@ body {
     background-color: var(--color-accent);
     transform-origin: bottom right;
     transform: scaleX(0);
-    transition: transform 0.3s cubic-bezier(0.65, 0.05, 0.36, 1);
+    transition: transform 0.3s var(--ease-nav);
   }
 
   &:hover {
@@ -161,7 +205,7 @@ body {
 
 @utility floating-nav {
   background-color: black;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-frame);
   border: 1px solid;
 }
 
@@ -184,7 +228,7 @@ body {
 
 @utility hero-heading {
   text-transform: uppercase;
-  font-family: "zentry", sans-serif;
+  font-family: var(--font-zentry);
   font-weight: 900;
   font-size: 3rem;
   line-height: 1;
@@ -211,7 +255,7 @@ body {
   max-width: 24rem;
   transform: translateX(-50%);
   text-align: center;
-  font-family: "circular-web", sans-serif;
+  font-family: var(--font-circular);
   font-size: 1.125rem;
   line-height: 1.75rem;
 
@@ -247,8 +291,8 @@ body {
   color: white;
 
   @media (min-width: 640px) {
-    padding-left: 8rem;
-    padding-right: 8rem;
+    padding-left: var(--spacing-title-x);
+    padding-right: var(--spacing-title-x);
   }
 
   @media (min-width: 768px) {
@@ -257,7 +301,7 @@ body {
 }
 
 @utility animated-word {
-  font-family: "zentry", sans-serif;
+  font-family: var(--font-zentry);
   font-weight: 900;
   opacity: 0;
   transform: translate3d(10px, 51px, -60px) rotateY(60deg) rotateX(-40deg);
@@ -270,13 +314,10 @@ body {
   position: relative;
   grid-column: span 2;
   overflow: hidden;
-  border-radius: 0.375rem;
-  border: 1px solid rgb(255 255 255 / 0.2);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-glass-border);
   /* Glassy outline shine: bright inner top edge + soft drop depth */
-  box-shadow:
-    inset 0 1px 1px rgb(255 255 255 / 0.25),
-    inset 0 0 24px rgb(255 255 255 / 0.04),
-    0 18px 40px -12px rgb(0 0 0 / 0.7);
+  box-shadow: var(--shadow-glass);
   transition: transform 0.3s ease-out;
   will-change: transform;
 }
@@ -286,12 +327,9 @@ body {
   grid-column: span 1;
   grid-row: span 1;
   overflow: hidden;
-  border-radius: 0.375rem;
-  border: 1px solid rgb(255 255 255 / 0.2);
-  box-shadow:
-    inset 0 1px 1px rgb(255 255 255 / 0.25),
-    inset 0 0 24px rgb(255 255 255 / 0.04),
-    0 18px 40px -12px rgb(0 0 0 / 0.7);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--color-glass-border);
+  box-shadow: var(--shadow-glass);
   transition: transform 0.3s ease-out;
   will-change: transform;
 }
@@ -301,7 +339,7 @@ body {
   font-size: 2.25rem;
   line-height: 2.5rem;
   font-weight: 900;
-  font-family: "zentry", sans-serif;
+  font-family: var(--font-zentry);
 
   @media (min-width: 768px) {
     font-size: 3.75rem;
@@ -362,7 +400,7 @@ body {
   width: 16rem;
   height: 16rem;
   overflow: hidden;
-  background-color: #5724ff;
+  background-color: var(--color-violet-deep);
 }
 
 @utility gallery-img {
@@ -372,7 +410,7 @@ body {
 }
 
 @utility gallery-img-4 {
-  border-radius: 0.5rem;
+  border-radius: var(--radius-frame);
 
   @media (min-width: 640px) {
     width: 20rem;
@@ -399,11 +437,11 @@ body {
 
 /* Special Font Styling */
 .special-font {
-  font-family: "zentry", sans-serif;
+  font-family: var(--font-zentry);
 }
 
 .special-font b {
-  font-family: "zentry", sans-serif;
+  font-family: var(--font-zentry);
   font-feature-settings: "ss01" on;
 }
 
@@ -462,17 +500,17 @@ body {
 
 /* Outer ring — accent leading edge, slow clockwise spin */
 .nexus-loader__ring:nth-child(1) {
-  border-top-color: var(--color-accent, #fde047);
-  border-right-color: rgb(253 224 71 / 0.25);
-  animation: nexus-spin 1.6s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+  border-top-color: var(--color-accent);
+  border-right-color: rgb(var(--accent-rgb) / 0.25);
+  animation: nexus-spin 1.6s var(--ease-nav) infinite;
 }
 
 /* Middle ring — violet leading edge, faster counter-clockwise spin */
 .nexus-loader__ring:nth-child(2) {
   inset: 1.1rem;
-  border-bottom-color: #5d3fd3;
-  border-left-color: rgb(93 63 211 / 0.3);
-  animation: nexus-spin-reverse 1.15s cubic-bezier(0.65, 0.05, 0.36, 1) infinite;
+  border-bottom-color: var(--color-violet);
+  border-left-color: rgb(var(--violet-rgb) / 0.3);
+  animation: nexus-spin-reverse 1.15s var(--ease-nav) infinite;
 }
 
 /* Inner ring — soft white leading edge */
@@ -490,8 +528,8 @@ body {
   height: 0.85rem;
   width: 0.85rem;
   border-radius: 9999px;
-  background-color: var(--color-accent, #fde047);
-  box-shadow: 0 0 16px 2px rgb(253 224 71 / 0.6);
+  background-color: var(--color-accent);
+  box-shadow: 0 0 16px 2px rgb(var(--accent-rgb) / 0.6);
   animation: nexus-core-pulse 1.6s ease-in-out infinite;
 }
 
@@ -532,11 +570,11 @@ body {
 .nexus-loader-text {
   background: linear-gradient(
     90deg,
-    rgb(223 223 240 / 0.35) 0%,
-    rgb(223 223 240 / 0.35) 40%,
-    var(--color-accent, #fde047) 50%,
-    rgb(223 223 240 / 0.35) 60%,
-    rgb(223 223 240 / 0.35) 100%
+    rgb(var(--primary-50-rgb) / 0.35) 0%,
+    rgb(var(--primary-50-rgb) / 0.35) 40%,
+    var(--color-accent) 50%,
+    rgb(var(--primary-50-rgb) / 0.35) 60%,
+    rgb(var(--primary-50-rgb) / 0.35) 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -614,11 +652,11 @@ body {
   0%,
   100% {
     transform: scale(1);
-    box-shadow: 0 0 0 0 rgb(253 224 71 / 0.45);
+    box-shadow: 0 0 0 0 rgb(var(--accent-rgb) / 0.45);
   }
   50% {
     transform: scale(1.08);
-    box-shadow: 0 0 0 12px rgb(253 224 71 / 0);
+    box-shadow: 0 0 0 12px rgb(var(--accent-rgb) / 0);
   }
 }
 
